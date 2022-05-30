@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jossellware.PoshIPNetwork", "Jossellware.PoshIPNetwork\Jossellware.PoshIPNetwork.csproj", "{89A77707-F5B4-42E3-8EBC-A920A04D701D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{89809BB7-DD5C-4437-A97B-D7246ACDD4B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jossellware.Shared.PSTools", "Shared\Jossellware.Shared.PSTools\Jossellware.Shared.PSTools.csproj", "{C943537F-AE8B-4375-AF7F-A88268FE5FCF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89A77707-F5B4-42E3-8EBC-A920A04D701D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89A77707-F5B4-42E3-8EBC-A920A04D701D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89A77707-F5B4-42E3-8EBC-A920A04D701D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89A77707-F5B4-42E3-8EBC-A920A04D701D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C943537F-AE8B-4375-AF7F-A88268FE5FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C943537F-AE8B-4375-AF7F-A88268FE5FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C943537F-AE8B-4375-AF7F-A88268FE5FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C943537F-AE8B-4375-AF7F-A88268FE5FCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C943537F-AE8B-4375-AF7F-A88268FE5FCF} = {89809BB7-DD5C-4437-A97B-D7246ACDD4B1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {005F437E-FB40-4409-A9C9-1CB533D5A444}
+	EndGlobalSection
+EndGlobal

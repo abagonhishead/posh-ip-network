@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Jossellware.PoshIPNetwork</AssemblyName>
+    <Authors>Russell Webster, Jossellware</Authors>
+    <Company>Jossellware</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IPNetwork2" Version="2.5.420" />
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Jossellware.Shared.PSTools\Jossellware.Shared.PSTools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="PoshIPNetwork.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
