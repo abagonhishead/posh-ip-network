@@ -6,8 +6,8 @@
     using Jossellware.PoshIPNetwork.Objects;
     using System.Net.Sockets;
 
-    [Cmdlet(VerbsDiagnostic.Resolve, "AddressBlock", DefaultParameterSetName = ResolveIPAddressBlock.ParameterSetCidrPrefix)]
-    [OutputType(typeof(IPNetwork))]
+    [Cmdlet(Constants.CmdletNames.ResolveIPAddressBlock.Verb, Constants.CmdletNames.ResolveIPAddressBlock.Noun, DefaultParameterSetName = ResolveIPAddressBlock.ParameterSetCidrPrefix)]
+    [OutputType(typeof(IPAddressBlockData))]
     public class ResolveIPAddressBlock : PSCmdletBase
     {
         private const string ParameterSetCidrPrefix = "CidrPrefix";
@@ -68,7 +68,7 @@
 
         protected override void ProcessRecord()
         {
-            this.WriteObject(new AddressBlock(this.Network));
+            this.WriteObject(new IPAddressBlockData(this.Network));
 
             base.ProcessRecord();
         }

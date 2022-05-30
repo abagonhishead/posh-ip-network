@@ -6,7 +6,7 @@
     using System.Numerics;
     using Jossellware.PoshIPNetwork.Objects.Enums;
 
-    public class AddressBlock
+    public class IPAddressBlockData
     {
         public IPAddress Network { get; }
 
@@ -26,7 +26,7 @@
 
         public NetworkType NetworkType { get; }
 
-        public AddressBlock(IPNetwork ipNetwork)
+        public IPAddressBlockData(IPNetwork ipNetwork)
         {
             if (!Enum.IsDefined(typeof(NetworkType), (int)ipNetwork.AddressFamily))
             {
