@@ -7,11 +7,11 @@
     using System.Net.Sockets;
     using System;
 
-    [Cmdlet(Constants.CmdletNames.ResolveIPAddressBlock.Verb, Constants.CmdletNames.ResolveIPAddressBlock.Noun, DefaultParameterSetName = ResolveIPAddressBlock.ParameterSetCidrPrefix)]
+    [Cmdlet(Constants.CmdletNames.ResolveIPAddressBlock.Verb, Constants.CmdletNames.ResolveIPAddressBlock.Noun, DefaultParameterSetName = ResolveIPAddressBlock.ParameterSetIPNetwork)]
     [OutputType(typeof(IPAddressBlockData))]
     public class ResolveIPAddressBlock : PSCmdletBase<IPAddressBlockData>
     {
-        private const string ParameterSetCidrPrefix = "CidrPrefix";
+        private const string ParameterSetIPNetwork = "IPNetwork";
         private const string ParameterSetIPAddressAndCidr = "IPAddressAndCidr";
 
         [Parameter(
@@ -19,8 +19,8 @@
             Position = 0,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ResolveIPAddressBlock.ParameterSetCidrPrefix,
-            HelpMessage = Constants.Documentation.ResolveIPAddressBlock.Parameters.CidrPrefix)]
+            ParameterSetName = ResolveIPAddressBlock.ParameterSetIPNetwork,
+            HelpMessage = Constants.Documentation.ResolveIPAddressBlock.Parameters.ParameterSetIPNetwork.Network)]
         public IPNetwork Network { get; set; }
 
         [Parameter(Mandatory = true,
@@ -28,7 +28,7 @@
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = ResolveIPAddressBlock.ParameterSetIPAddressAndCidr,
-            HelpMessage = "An IP address within the target subnet.")]
+            HelpMessage = Constants.Documentation.ResolveIPAddressBlock.Parameters.ParameterSetIPAddressAndCidr.IPAddress)]
         [ValidateNotNull]
         public IPAddress IPAddress { get; set; }
 
@@ -37,13 +37,9 @@
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = ResolveIPAddressBlock.ParameterSetIPAddressAndCidr,
-            HelpMessage = "A number between 0 and 32 (for IPv4) or 0 and 64 (for IPv6) that represents the size of the subnet.")]
+            HelpMessage = Constants.Documentation.ResolveIPAddressBlock.Parameters.ParameterSetIPAddressAndCidr.Cidr)]
         [ValidateRange(0, 64)]
         public byte Cidr { get; set; }
-
-        public ResolveIPAddressBlock()
-        {
-        }
 
         protected override void BeginProcessingImplementation()
         {
