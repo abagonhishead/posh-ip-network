@@ -5,10 +5,11 @@
     using Jossellware.Shared.PSTools.Cmdlets;
     using Jossellware.PoshIPNetwork.Objects;
     using System.Net.Sockets;
+    using System;
 
     [Cmdlet(Constants.CmdletNames.ResolveIPAddressBlock.Verb, Constants.CmdletNames.ResolveIPAddressBlock.Noun, DefaultParameterSetName = ResolveIPAddressBlock.ParameterSetCidrPrefix)]
     [OutputType(typeof(IPAddressBlockData))]
-    public class ResolveIPAddressBlock : PSCmdletBase
+    public class ResolveIPAddressBlock : PSCmdletBase<IPAddressBlockData>
     {
         private const string ParameterSetCidrPrefix = "CidrPrefix";
         private const string ParameterSetIPAddressAndCidr = "IPAddressAndCidr";
@@ -36,7 +37,7 @@
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = ResolveIPAddressBlock.ParameterSetIPAddressAndCidr,
-            HelpMessage = "A number between 0 and 64 representing the size of the subnet.")]
+            HelpMessage = "A number between 0 and 32 (for IPv4) or 0 and 64 (for IPv6) that represents the size of the subnet.")]
         [ValidateRange(0, 64)]
         public byte Cidr { get; set; }
 
@@ -44,43 +45,29 @@
         {
         }
 
-        public override string GetResourceString(string baseName, string resourceId)
+        protected override void BeginProcessingImplementation()
         {
-            return base.GetResourceString(baseName, resourceId);
-        }
-
-        protected override void BeginProcessing()
-        {
-            if (string.Equals(this.ParameterSetName, ResolveIPAddressBlock.ParameterSetIPAddressAndCidr))
+            if (this.IsParameterSetNamed(ResolveIPAddressBlock.ParameterSetIPAddressAndCidr))
             {
                 if (this.IPAddress.AddressFamily != AddressFamily.InterNetwork && this.IPAddress.AddressFamily != AddressFamily.InterNetworkV6)
                 {
-                    this.BuildAndWriteError(new PSNotSupportedException(Constants.ErrorMessages.IPv4AndIPv6Only), "01", ErrorCategory.InvalidArgument, this.IPAddress);
+                    this.SetError(new PSNotSupportedException(Constants.ErrorMessages.IPv4AndIPv6Only), "01", ErrorCategory.InvalidArgument, this.IPAddress);
                 }
                 else if (this.IPAddress.AddressFamily == AddressFamily.InterNetwork && this.Cidr > 32)
                 {
-                    this.BuildAndWriteError(new PSArgumentOutOfRangeException(Constants.ErrorMessages.IPv4CidrOutOfRange), "02", ErrorCategory.InvalidArgument);
+                    this.SetError(new PSArgumentOutOfRangeException(nameof(this.Cidr), this.Cidr, Constants.ErrorMessages.IPv4CidrOutOfRange), "02", ErrorCategory.InvalidArgument, this.IPAddress);
                 }
-
-                this.Network = new IPNetwork(this.IPAddress, this.Cidr);
             }
         }
 
-        protected override void ProcessRecord()
+        protected override IPAddressBlockData ProcessRecordImplementation()
         {
-            this.WriteObject(new IPAddressBlockData(this.Network));
+            if (this.IsParameterSetNamed(ResolveIPAddressBlock.ParameterSetIPAddressAndCidr))
+            {
+                this.Network = new IPNetwork(this.IPAddress, this.Cidr);
+            }
 
-            base.ProcessRecord();
-        }
-
-        protected override void EndProcessing()
-        {
-            base.EndProcessing();
-        }
-
-        protected override void StopProcessing()
-        {
-            base.StopProcessing();
+            return new IPAddressBlockData(this.Network);
         }
     }
 }
