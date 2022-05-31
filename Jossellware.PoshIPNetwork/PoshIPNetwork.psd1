@@ -9,7 +9,7 @@
     PowerShellVersion = '5.0'
     DotNetFrameworkVersion = '4.7.2'
     ClrVersion = '4.0.0'
-    CmdletsToExport = 'Resolve-IPAddressBlock'
+    CmdletsToExport = 'Resolve-IPAddressBlock, Get-IPNetworkAddresses'
     HelpInfoURI = 'https://aka.ms/powershell72-help'
 
     # VariablesToExport = @()

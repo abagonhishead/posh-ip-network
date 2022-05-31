@@ -1,8 +1,6 @@
 ﻿namespace Jossellware.PoshIPNetwork.Cmdlets
 {
-    using System;
     using System.Management.Automation;
-    using System.Management.Automation.Runspaces;
 
     [Cmdlet(VerbsDiagnostic.Test, "SampleCmdlet")]
     [OutputType(typeof(FavoriteStuff))]

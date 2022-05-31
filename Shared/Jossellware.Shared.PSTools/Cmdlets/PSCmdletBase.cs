@@ -2,18 +2,61 @@
 {
     using System;
     using System.Management.Automation;
+    using System.Threading;
+    using Jossellware.Shared.PSTools.Errors;
+    using Jossellware.Shared.Threading;
 
-    public abstract class PSCmdletBase<TReturn> : PSCmdlet
+    [CmdletBinding()]
+    public abstract class PSCmdletBase : PSCmdlet, IDisposable
     {
-        private ErrorRecord Error;
-        private TReturn Output;
+        private readonly ICancellationTokenSourceFactory ctsFactory;
+
+        private CancellationTokenSource cts;
+        private ErrorRecord error;
+        private bool disposed;
+
+        protected IErrorFactory ErrorFactory { get; set; }
+
+        protected CancellationToken CancellationToken => this.cts.Token;
+
+        public PSCmdletBase()
+            : this(new ErrorFactory(), new CancellationTokenSourceFactory())
+        {
+        }
+
+        public PSCmdletBase(IErrorFactory errorFactory, ICancellationTokenSourceFactory ctsFactory)
+        {
+            this.ErrorFactory = errorFactory;
+            this.ctsFactory = ctsFactory;
+
+            this.cts = this.ctsFactory.BuildSource();
+        }
 
         public override string GetResourceString(string baseName, string resourceId)
         {
             return base.GetResourceString(baseName, resourceId);
         }
 
-        protected abstract TReturn ProcessRecordImplementation();
+        public void Dispose()
+        {
+            if (!this.disposed)
+            {
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+                this.disposed = true;
+            }
+        }
+
+        protected virtual void Dispose(bool disposing = false)
+        {
+            if (disposing)
+            {
+                this.cts.Cancel();
+                this.cts.Dispose();
+            }
+        }
+
+        protected abstract void ProcessRecordImplementation();
 
         protected virtual void BeginProcessingImplementation()
         {
@@ -27,75 +70,71 @@
         {
         }
 
-        protected sealed override void BeginProcessing()
+        protected override void BeginProcessing()
         {
-            this.BeginProcessingImplementation();
-            base.BeginProcessing();
+            if (!this.CancellationToken.IsCancellationRequested)
+            {
+                base.BeginProcessing();
+
+                this.BeginProcessingImplementation();
+            }
         }
 
-        protected sealed override void ProcessRecord()
+        protected virtual void PreprocessRecord()
         {
-            if (this.Error == null)
-            {
-                this.Output = this.ProcessRecordImplementation();
-            }
-
-            base.ProcessRecord();
         }
 
-        protected sealed override void EndProcessing()
+        protected override void ProcessRecord()
         {
-            this.EndProcessingImplementation();
-
-            if (this.Error == null)
+            if (!this.CancellationToken.IsCancellationRequested)
             {
-                this.WriteObject(this.Output);
-            }
-            else
-            {
-                this.WriteError(this.Error);
-            }
+                this.PreprocessRecord();
 
-            base.EndProcessing();
+                if (this.error == null)
+                {
+                    this.ProcessRecordImplementation();
+                }
+
+                base.ProcessRecord();
+            }
         }
 
-        protected sealed override void StopProcessing()
+        protected override void EndProcessing()
         {
+            if (!this.CancellationToken.IsCancellationRequested)
+            {
+                this.EndProcessingImplementation();
+
+                if (this.error != null)
+                {
+                    this.WriteError(this.error);
+                }
+
+                base.EndProcessing();
+            }
+        }
+
+        protected override void StopProcessing()
+        {
+            this.Stop();
+
             this.StopProcessingImplementation();
             base.StopProcessing();
         }
 
-        protected void SetError(Exception exception, string errorId, ErrorCategory? category = null, object targetObject = null, Exception inner = null)
+        protected void SetError(ErrorRecord error)
         {
-            var record = new ErrorRecord(exception, errorId, category ?? ErrorCategory.NotSpecified, targetObject);
-            if (inner != null)
-            {
-                record = new ErrorRecord(record, inner);
-            }
-
-            this.SetError(record);
-        }
-
-        protected void SetError(string message, string errorId, Exception inner, ErrorCategory? category = null, object targetObject = null)
-        {
-            var exception = new CmdletInvocationException(message);
-            var record = new ErrorRecord(exception, errorId, category ?? ErrorCategory.NotSpecified, targetObject);
-            if (inner != null)
-            {
-                record = new ErrorRecord(record, inner);
-            }
-
-            this.SetError(record);
-        }
-
-        protected void SetError(ErrorRecord errorRecord)
-        {
-            this.Error = errorRecord;
+            this.error = error;
         }
 
         protected bool IsParameterSetNamed(string parameterSetName)
         {
             return string.Equals(parameterSetName, this.ParameterSetName);
+        }
+
+        protected void Stop()
+        {
+            this.cts.Cancel();
         }
     }
 }

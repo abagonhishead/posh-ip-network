@@ -2,9 +2,17 @@
 {
     public static class Documentation
     {
-        public static class ResolveIPAddressBlock
+        public static class Commands
         {
-            public static class Parameters
+            public static class GetIPNetworkAddresses
+            {
+                public const string All = "Pass this to return all addresses, including broadcast addresses etc., rather than just 'usable' addresses (i.e. addresses that can be assigned to a single NIC on a given network).";
+            }
+        }
+
+        public static class Shared
+        {
+            public static class ParameterSets
             {
                 public static class ParameterSetIPAddressAndCidr
                 {

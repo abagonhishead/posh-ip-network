@@ -8,4 +8,8 @@
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Jossellware.Shared\Jossellware.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
