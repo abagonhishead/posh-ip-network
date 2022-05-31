@@ -32,7 +32,7 @@
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = CommandData.ParameterSetNames.Shared.IPAddressAndCidr,
             HelpMessage = Documentation.Shared.ParameterSets.ParameterSetIPAddressAndCidr.Cidr)]
-        [ValidateRange(0, 64)]
+        [ValidateRange(0, 128)]
         public byte Cidr { get; set; }
 
         protected override void BeginProcessingImplementation()
