@@ -6,7 +6,7 @@ PoshIPNetwork is a small, work-in-progress module that provides a few tools to i
 For example, it can be used to get a list of all available IP addresses in a given subnet and iterate over those addresses.
 
 ## Compatibility
-PoshIPNetwork is written in .NET Standard 2.0, thanks to IPNetwork2's support of .NET Standard. This means it so should be compatible with PowerShell 5 & PowerShell Core across any platforms that PowerShell Core supports.
+PoshIPNetwork is written in .NET Standard 2.0, thanks to IPNetwork2's support of .NET Standard. This means it should be compatible with PowerShell 5 & PowerShell Core across any platforms that PowerShell Core supports.
 
 ## Using it
 Builds & packages will be available shortly. In the interim, you can build it yourself if you have the .NET SDK by cloning the repo, then, in PowerShell:
