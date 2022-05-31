@@ -12,7 +12,6 @@
         private readonly ICancellationTokenSourceFactory ctsFactory;
 
         private CancellationTokenSource cts;
-        private ErrorRecord error;
         private bool disposed;
 
         protected IErrorFactory ErrorFactory { get; set; }
@@ -90,12 +89,9 @@
             {
                 this.PreprocessRecord();
 
-                if (this.error == null)
-                {
-                    this.ProcessRecordImplementation();
-                }
-
                 base.ProcessRecord();
+
+                this.ProcessRecordImplementation();
             }
         }
 
@@ -104,11 +100,6 @@
             if (!this.CancellationToken.IsCancellationRequested)
             {
                 this.EndProcessingImplementation();
-
-                if (this.error != null)
-                {
-                    this.WriteError(this.error);
-                }
 
                 base.EndProcessing();
             }
@@ -120,11 +111,6 @@
 
             this.StopProcessingImplementation();
             base.StopProcessing();
-        }
-
-        protected void SetError(ErrorRecord error)
-        {
-            this.error = error;
         }
 
         protected bool IsParameterSetNamed(string parameterSetName)

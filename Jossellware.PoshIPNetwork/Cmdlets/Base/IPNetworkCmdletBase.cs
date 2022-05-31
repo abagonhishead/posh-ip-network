@@ -60,7 +60,7 @@
 
             if (error != null)
             {
-                this.SetError(error);
+                this.ThrowTerminatingError(error);
             }
         }
     }
