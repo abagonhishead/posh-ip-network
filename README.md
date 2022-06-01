@@ -16,7 +16,7 @@ cd "posh-ip-network"
 
 dotnet publish
 
-Import-Module ".\Jossellware.PoshIPNetwork\bin\Debug\netstandard2.0\publish\Jossellware.PoshIPNetwork.dll"
+Import-Module ".\Jossellware.PoshIPNetwork\bin\Debug\netstandard2.0\publish\PoshIPNetwork.dll"
 ````
 
 Use `dotnet publish` rather than `dotnet build` so that dependent assemblies are included with the build.

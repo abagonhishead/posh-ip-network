@@ -1,6 +1,6 @@
 @{
-    RootModule = 'Jossellware.PoshIPNetwork.dll'
-    ModuleVersion = '0.0.1'
+    RootModule = 'PoshIPNetwork.dll'
+    ModuleVersion = '0.0.0.1'
     GUID = 'a97fe792-3f98-43db-9609-0b9454c1429d'
     Author = 'Russell Webster'
     CompanyName = 'Jossellware'
