@@ -1,4 +1,4 @@
-﻿namespace Jossellware.Shared.PSTools.Cmdlets
+﻿namespace Jossellware.Shared.PSTools.Commands
 {
     using System;
     using System.Management.Automation;
@@ -7,7 +7,7 @@
     using Jossellware.Shared.Threading;
 
     [CmdletBinding()]
-    public abstract class PSCmdletBase : PSCmdlet, IDisposable
+    public abstract class PSCommandBase : PSCmdlet, IDisposable
     {
         private readonly ICancellationTokenSourceFactory ctsFactory;
 
@@ -18,12 +18,12 @@
 
         protected CancellationToken CancellationToken => this.cts.Token;
 
-        public PSCmdletBase()
+        public PSCommandBase()
             : this(new ErrorFactory(), new CancellationTokenSourceFactory())
         {
         }
 
-        public PSCmdletBase(IErrorFactory errorFactory, ICancellationTokenSourceFactory ctsFactory)
+        public PSCommandBase(IErrorFactory errorFactory, ICancellationTokenSourceFactory ctsFactory)
         {
             this.ErrorFactory = errorFactory;
             this.ctsFactory = ctsFactory;
@@ -31,6 +31,7 @@
             this.cts = this.ctsFactory.BuildSource();
         }
 
+        /* TODO: Override this and use a JSON resource provider */
         public override string GetResourceString(string baseName, string resourceId)
         {
             return base.GetResourceString(baseName, resourceId);

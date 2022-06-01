@@ -1,12 +1,12 @@
-﻿namespace Jossellware.PoshIPNetwork.Cmdlets.Base
+﻿namespace Jossellware.PoshIPNetwork.Commands.Base
 {
     using System.Management.Automation;
     using System.Net;
     using System.Net.Sockets;
     using Jossellware.PoshIPNetwork.Constants;
-    using Jossellware.Shared.PSTools.Cmdlets;
+    using Jossellware.Shared.PSTools.Commands;
 
-    public abstract class IPNetworkCmdletBase : PSCmdletBase
+    public abstract class IPNetworkCommandBase : PSCommandBase
     {
         [Parameter(
             Mandatory = true,

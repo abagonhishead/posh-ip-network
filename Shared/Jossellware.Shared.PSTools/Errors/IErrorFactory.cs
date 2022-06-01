@@ -5,6 +5,6 @@
 
     public interface IErrorFactory
     {
-        ErrorRecord BuildError(Exception exception, string fullyQualifiedErrorId, ErrorCategory category, object target);
+        ErrorRecord BuildError(Exception exception, string fullyQualifiedErrorId, ErrorCategory category, object target = null);
     }
 }

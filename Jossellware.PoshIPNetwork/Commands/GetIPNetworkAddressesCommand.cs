@@ -1,14 +1,14 @@
-﻿namespace Jossellware.PoshIPNetwork.Cmdlets
+﻿namespace Jossellware.PoshIPNetwork.Commands
 {
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Net;
-    using Jossellware.PoshIPNetwork.Cmdlets.Base;
+    using Jossellware.PoshIPNetwork.Commands.Base;
     using Jossellware.PoshIPNetwork.Constants;
 
     [Cmdlet(CommandData.CommandNames.GetIPNetworkAddresses.Verb, CommandData.CommandNames.GetIPNetworkAddresses.Noun, DefaultParameterSetName = CommandData.ParameterSetNames.Shared.DefaultParameterSetName)]
     [OutputType(typeof(IEnumerable<IPAddress>))]
-    public class GetIPNetworkAddressesCommand : IPNetworkCmdletBase
+    public class GetIPNetworkAddressesCommand : IPNetworkCommandBase
     {
         [Parameter(Mandatory = false,
             Position = 100,
