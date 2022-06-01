@@ -1,7 +1,7 @@
 # PoshIPNetwork
 ## What is it?
 
-PoshIPNetwork is a small, work-in-progress module that provides a few tools to interact with and process IPv4 & IPv6 CIDR prefixes in PowerShell. It is based on `System.Net.IPNetwork` (https://github.com/lduchosal/ipnetwork).
+PoshIPNetwork is a small, work-in-progress PowerShell module written in C# that provides a few tools to parse and process IPv4/IPv6 CIDR prefixes. It is based on `System.Net.IPNetwork` (https://github.com/lduchosal/ipnetwork).
 
 For example, it can be used to get a list of all available IP addresses in a given subnet and iterate over those addresses.
 
