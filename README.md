@@ -199,8 +199,10 @@ IPAddressToString  : 192.168.0.255
 ````
 
 ## Todo
-- Performance tests for large subnets
 - Remaining unit tests
 - Add netmask to existing commands
-- Additional commands
-- Help files & hosting
+- Additional commands:
+  - `Get-IPNetworkSupernets` - list all supernets for a given IP address or prefix
+  - `Get-IPNetworkSubnets` - list all subnets for a given prefix
+- Performance tests for large subnets
+- Documentation
