@@ -29,8 +29,8 @@ Get-Command -Module PoshIPNetwork
 ## Commands
 
 The below commands have common parameters as below, and accept them as pipeline input:
-  - Parameter set 1: 
-    - `-Network` - this can be either a `System.Net.IPNetwork` instance, or a string representation of a CIDR prefix using RFC 4632 notation (e.g. 192.168.0.0/24) that is parsed using `IPNetwork.Parse`.
+  - Parameter set 1 (default): 
+    - `-Network` - A string representation of a CIDR prefix using RFC 4632 notation (e.g. 192.168.0.0/24) that is parsed using `IPNetwork.Parse`. This can also be a `System.Net.IPNetwork` instance piped from another command or from something like `[System.Net.IPNetwork]::Parse()`.
   - Parameter set 2:
     - `-IPAddress` - an IP address under the target prefix
     - `-Cidr` - a number representing the netmask as per the RFC 4632 CIDR notation. This is a value between 0 and 32 for an IPv4 address & 0 and 128 for an IPv6 address.
