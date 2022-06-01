@@ -9,7 +9,7 @@ For example, it can be used to get a list of all available IP addresses in a giv
 PoshIPNetwork is written in .NET Standard 2.0, thanks to IPNetwork2's support of .NET Standard. This means it should be compatible with PowerShell 5 & PowerShell Core across any platforms that PowerShell Core supports.
 
 ## Using it
-Builds & packages will be available shortly. In the interim, you can build it yourself if you have the .NET SDK by cloning the repo, then, in PowerShell:
+Builds & packages will be available shortly. In the interim, you can build and use it yourself if you have the .NET SDK by cloning the repo, then, in PowerShell:
 
 ````powershell
 cd "posh-ip-network"
@@ -18,6 +18,8 @@ dotnet publish
 
 Import-Module ".\Jossellware.PoshIPNetwork\bin\Debug\netstandard2.0\publish\Jossellware.PoshIPNetwork.dll"
 ````
+
+Use `dotnet publish` rather than `dotnet build` so that dependent assemblies are included with the build.
 
 To view available commands:
 ````powershell
@@ -28,7 +30,7 @@ Get-Command -Module Jossellware.PoshIPNetwork
 
 The below commands have common parameters as below, and accept them as pipeline input:
   - Parameter set 1: 
-    - `-Network` - a typical string representation of a CIDR prefix using RFC 4632 notation (e.g. 192.168.0.0/24)
+    - `-Network` - this can be either a `System.Net.IPNetwork` instance, or a string representation of a CIDR prefix using RFC 4632 notation (e.g. 192.168.0.0/24) that is parsed using `IPNetwork.Parse`.
   - Parameter set 2:
     - `-IPAddress` - an IP address under the target prefix
     - `-Cidr` - a number representing the netmask as per the RFC 4632 CIDR notation. This is a value between 0 and 32 for an IPv4 address & 0 and 128 for an IPv6 address.
@@ -82,7 +84,7 @@ Cidr          : 44
 ````
 
 - `Get-IPNetworkAddresses` - returns a collection of all available IP addresses in a given CIDR prefix. 
-  - `-All` - a switch that tells the command to return all addresses (including broadcast etc.) rather than only those addresses that are 'usable' (that is, they are assignable to a single NIC on a given network.)
+  - `-All` - return all addresses (including broadcast etc.) rather than only those addresses that are 'usable' (that is, they are assignable to a single NIC on a given network.)
 
 ````powershell
 Get-IPNetworkAddresses -Network 10.0.0.0/24
