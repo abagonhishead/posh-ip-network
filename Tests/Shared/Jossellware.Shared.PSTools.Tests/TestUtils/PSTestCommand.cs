@@ -3,12 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Management.Automation;
     using FluentAssertions;
     using Jossellware.Shared.PSTools.Commands;
     using Jossellware.Shared.PSTools.Errors;
     using Jossellware.Shared.Threading;
+    using Moq;
 
-    public class PSTestCommand : PSCommandBase
+    public class PSTestCommand<TOutput> : PSCommandBase
     {
         private readonly IDictionary<string, int> methodCalls;
 
@@ -17,6 +19,10 @@
         public ICancellationTokenSourceFactory PublicCtsFactory => this.CtsFactory;
 
         public CancellationToken PublicCancellationToken => this.CancellationToken;
+
+        public Mock<ICommandRuntime2> MockCommandRuntime { get; }
+
+        public PSMockOutputStreams<TOutput> MockOutputStreams { get; }
 
         public PSTestCommand()
             : base()
@@ -28,6 +34,11 @@
             : base(errorFactory, ctsFactory, shouldDisposeDependencies)
         {
             this.methodCalls = new Dictionary<string, int>();
+
+            this.MockCommandRuntime = new Mock<ICommandRuntime2>();
+            this.MockOutputStreams = new PSMockOutputStreams<TOutput>(this.MockCommandRuntime);
+            
+            this.CommandRuntime = this.MockCommandRuntime.Object;
         }
 
         public void PublicBeginProcessing()
@@ -126,5 +137,9 @@
         {
             return this.methodCalls.TryGetValue(methodName, out var val) ? val : 0;
         }
+    }
+
+    public class PSTestCommand : PSTestCommand<object>
+    {
     }
 }
