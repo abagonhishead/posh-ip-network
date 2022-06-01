@@ -212,5 +212,6 @@ IPAddressToString  : 192.168.0.255
 - Additional commands:
   - `Get-IPNetworkSupernets` - list all supernets for a given IP address or prefix
   - `Get-IPNetworkSubnets` - list all subnets for a given prefix
-- Performance tests for large subnets
+- Performance tests/potential optimisation for large subnets 
+  - Can large subnets be slow? Do we need a command to get the next address in a prefix rather than returning the whole collection at once?
 - Documentation
