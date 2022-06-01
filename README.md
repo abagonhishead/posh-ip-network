@@ -23,7 +23,7 @@ Use `dotnet publish` rather than `dotnet build` so that dependent assemblies are
 
 To view available commands:
 ````powershell
-Get-Command -Module Jossellware.PoshIPNetwork
+Get-Command -Module PoshIPNetwork
 ````
 
 ## Commands
