@@ -42,8 +42,9 @@ The below commands have common parameters as below, and accept them as pipeline 
     - `-Cidr` - a number representing the netmask as per the RFC 4632 CIDR notation. This is a value between 0 and 32 for an IPv4 address & 0 and 128 for an IPv6 address.
 
 ### Currently working:
-- `Resolve-IPAddressBlock` - create an instance of `System.Net.IPNetwork` based on a string CIDR prefix or an IP address followed by a byte value between 0 & 32 (IPv4) or 0 & 128 (IPv6)
+- `Resolve-IPAddressBlock` - create an instance of `System.Net.IPNetwork` and return it to the caller.
 
+#### Examples:
 
 ````powershell
 Resolve-IPAddressBlock -Network 192.168.0.1/24
@@ -89,9 +90,10 @@ Total         : 19342813113834066795298816
 Cidr          : 44
 ````
 
-- `Get-IPNetworkAddresses` - returns a collection of all available IP addresses in a given CIDR prefix. 
+- `Get-IPNetworkAddresses` - returns a collection of all available IP addresses in a given CIDR prefix to the caller
   - `-All` - return all addresses (including broadcast etc.) rather than only those addresses that are 'usable' (that is, they are assignable to a single NIC on a given network.)
 
+#### Examples
 ````powershell
 Get-IPNetworkAddresses -Network 10.0.0.0/24
 
