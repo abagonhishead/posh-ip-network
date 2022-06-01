@@ -1,7 +1,7 @@
 # PoshIPNetwork
 ## What is it?
 
-PoshIPNetwork is a small, work-in-progress PowerShell module written in C# that provides a few tools to parse and process IPv4/IPv6 CIDR prefixes. It is based on `System.Net.IPNetwork` (https://github.com/lduchosal/ipnetwork).
+PoshIPNetwork is a small, work-in-progress PowerShell module written in C# that provides a few tools to parse and process IPv4/IPv6 CIDR prefixes. It is based on the excellent `System.Net.IPNetwork` (https://github.com/lduchosal/ipnetwork).
 
 For example, it can be used to get a list of all available IP addresses in a given subnet and iterate over those addresses.
 
@@ -30,7 +30,8 @@ Get-Command -Module PoshIPNetwork
 
 The below commands have common parameters as below, and accept them as pipeline input:
   - Parameter set 1 (default): 
-    - `-Network` - A string representation of a CIDR prefix using RFC 4632 notation (e.g. 192.168.0.0/24) that is parsed using `IPNetwork.Parse`. This can also be a `System.Net.IPNetwork` instance piped from another command or from something like `[System.Net.IPNetwork]::Parse()`.
+    - `-Network` - A string representation of a CIDR prefix using RFC 4632 notation (e.g. 192.168.0.0/24) that is parsed using `IPNetwork.Parse`. 
+      - This can also be a `System.Net.IPNetwork` instance piped from another command or from something like `[System.Net.IPNetwork]::Parse()`.
   - Parameter set 2:
     - `-IPAddress` - an IP address under the target prefix
     - `-Cidr` - a number representing the netmask as per the RFC 4632 CIDR notation. This is a value between 0 and 32 for an IPv4 address & 0 and 128 for an IPv6 address.
