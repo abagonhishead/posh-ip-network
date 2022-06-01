@@ -1,4 +1,4 @@
-﻿namespace Jossellware.Shared.PSTools.UnitTests.Errors
+﻿namespace Jossellware.Shared.PSTools.Tests.Unit.Errors
 {
     using System.Management.Automation;
     using FluentAssertions;

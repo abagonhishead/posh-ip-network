@@ -1,7 +1,8 @@
-﻿namespace Jossellware.Shared.PSTools.UnitTests.TestUtils
+﻿namespace Jossellware.Shared.PSTools.Tests.TestUtils
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using FluentAssertions;
     using Jossellware.Shared.PSTools.Commands;
     using Jossellware.Shared.PSTools.Errors;
@@ -26,15 +27,7 @@
         public PSTestCommand(IErrorFactory errorFactory, ICancellationTokenSourceFactory ctsFactory, bool shouldDisposeDependencies) 
             : base(errorFactory, ctsFactory, shouldDisposeDependencies)
         {
-            this.methodCalls = new Dictionary<string, int>
-            {
-                { nameof(this.BeginProcessingImplementation), 0 },
-                { nameof(this.Dispose), 0 },
-                { nameof(this.EndProcessingImplementation), 0 },
-                { nameof(this.PreprocessRecord), 0 },
-                { nameof(this.ProcessRecordImplementation), 0 },
-                { nameof(this.StopProcessingImplementation), 0 },
-            };
+            this.methodCalls = new Dictionary<string, int>();
         }
 
         public void PublicBeginProcessing()
@@ -57,64 +50,81 @@
             base.StopProcessing();
         }
 
-        public void VerifyMethodCalls(string methodName, int expectedCalls)
+        public void ShouldHaveMethodCall(string methodName, int expectedCallCount)
         {
-            this.methodCalls[methodName].Should().Be(expectedCalls);
+            this.GetMethodCallCount(methodName).Should().Be(expectedCallCount);
         }
 
-        public void VerifyMethodCallsExcept(string exceptMethodName, int exceptMethodCalls, int remainingMethodCalls)
+        public void ShouldNotHaveMethodCall(string methodName)
         {
-            foreach (var methodCall in this.methodCalls)
-            {
-                if (string.Equals(methodCall.Key, exceptMethodName, StringComparison.Ordinal))
-                {
-                    methodCall.Value.Should().Be(exceptMethodCalls);
-                }
-                else
-                {
-                    methodCall.Value.Should().Be(remainingMethodCalls);
-                }
-            }
+            this.GetMethodCallCount(methodName).Should().Be(0);
         }
 
-        public void VerifyNoMethodCalls()
+        public void ShouldOnlyHaveMethodCalls(int expectedCallCount, params string[] methodNames)
         {
-            this.methodCalls.Should().OnlyContain(x => x.Value == 0);
+            this.methodCalls.Should().OnlyContain(
+                x => methodNames.Contains(x.Key, StringComparer.Ordinal) &&
+                    x.Value == expectedCallCount);
         }
 
-        protected override void BeginProcessingImplementation()
+        public void ShouldHaveNoMethodCalls()
         {
-            this.methodCalls[nameof(this.BeginProcessingImplementation)]++;
-            base.BeginProcessingImplementation();
+            this.methodCalls.Should().BeEmpty();
         }
 
         protected override void Dispose(bool disposing = false)
         {
-            this.methodCalls[nameof(this.Dispose)]++;
+            this.UpdateMethodCallCounter(nameof(this.Dispose));
+
             base.Dispose(disposing);
+        }
+
+        protected override void BeginProcessingImplementation()
+        {
+            this.UpdateMethodCallCounter(nameof(this.BeginProcessingImplementation));
+
+            base.BeginProcessingImplementation();
         }
 
         protected override void EndProcessingImplementation()
         {
-            this.methodCalls[nameof(this.EndProcessingImplementation)]++;
+            this.UpdateMethodCallCounter(nameof(this.EndProcessingImplementation));
+
             base.EndProcessingImplementation();
         }
 
         protected override void PreprocessRecord()
         {
-            this.methodCalls[nameof(this.PreprocessRecord)]++;
+            this.UpdateMethodCallCounter(nameof(this.PreprocessRecord));
+
             base.PreprocessRecord();
         }
 
         protected override void ProcessRecordImplementation()
         {
-            this.methodCalls[nameof(this.ProcessRecordImplementation)]++;
+            this.UpdateMethodCallCounter(nameof(this.ProcessRecordImplementation));
         }
 
         protected override void StopProcessingImplementation()
         {
-            this.methodCalls[nameof(this.StopProcessingImplementation)]++;
+            this.UpdateMethodCallCounter(nameof(this.StopProcessingImplementation));
             base.StopProcessingImplementation();
+        }
+
+        private void UpdateMethodCallCounter(string methodName)
+        {
+            var calls = 1;
+            if (this.methodCalls.TryGetValue(methodName, out var val))
+            {
+                calls += val;
+            }
+
+            this.methodCalls[methodName] = calls;
+        }
+
+        private int GetMethodCallCount(string methodName)
+        {
+            return this.methodCalls.TryGetValue(methodName, out var val) ? val : 0;
         }
     }
 }

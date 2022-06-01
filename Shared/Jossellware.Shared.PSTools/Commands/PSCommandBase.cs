@@ -118,10 +118,13 @@
 
         protected override void StopProcessing()
         {
-            this.Stop();
+            if (!this.Stopping)
+            {
+                this.Stop();
 
-            this.StopProcessingImplementation();
-            base.StopProcessing();
+                this.StopProcessingImplementation();
+                base.StopProcessing();
+            }
         }
 
         protected bool IsParameterSetNamed(string parameterSetName)

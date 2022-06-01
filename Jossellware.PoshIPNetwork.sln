@@ -15,14 +15,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7315F78C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F8DC68D2-23B5-4152-95AF-0299AA9E46AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jossellware.Shared.PSTools.UnitTests", "Tests\Shared\Jossellware.Shared.PSTools.UnitTests\Jossellware.Shared.PSTools.UnitTests.csproj", "{47AA75FE-4AE5-4237-8986-0830AE9B6D38}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jossellware.Shared.UnitTests", "Tests\Shared\Jossellware.Shared.UnitTests\Jossellware.Shared.UnitTests.csproj", "{B86469F2-9430-480A-B0D5-88B7B27825C5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D7E96740-A4C1-4501-80F3-9EF9ABC604AD}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jossellware.Shared.PSTools.Tests", "Tests\Shared\Jossellware.Shared.PSTools.Tests\Jossellware.Shared.PSTools.Tests.csproj", "{30824D3E-4003-402F-A37F-2996221C8B2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jossellware.Shared.Tests", "Tests\Shared\Jossellware.Shared.Tests\Jossellware.Shared.Tests.csproj", "{D06C34AE-E06F-41E0-88A9-FDF4263D020D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,12 +42,14 @@ Global
 		{DDAC5048-C436-4674-9B7E-3824153E74FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDAC5048-C436-4674-9B7E-3824153E74FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDAC5048-C436-4674-9B7E-3824153E74FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47AA75FE-4AE5-4237-8986-0830AE9B6D38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47AA75FE-4AE5-4237-8986-0830AE9B6D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47AA75FE-4AE5-4237-8986-0830AE9B6D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B86469F2-9430-480A-B0D5-88B7B27825C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B86469F2-9430-480A-B0D5-88B7B27825C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B86469F2-9430-480A-B0D5-88B7B27825C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30824D3E-4003-402F-A37F-2996221C8B2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30824D3E-4003-402F-A37F-2996221C8B2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30824D3E-4003-402F-A37F-2996221C8B2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30824D3E-4003-402F-A37F-2996221C8B2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D06C34AE-E06F-41E0-88A9-FDF4263D020D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D06C34AE-E06F-41E0-88A9-FDF4263D020D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D06C34AE-E06F-41E0-88A9-FDF4263D020D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D06C34AE-E06F-41E0-88A9-FDF4263D020D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,8 +58,8 @@ Global
 		{C943537F-AE8B-4375-AF7F-A88268FE5FCF} = {89809BB7-DD5C-4437-A97B-D7246ACDD4B1}
 		{DDAC5048-C436-4674-9B7E-3824153E74FF} = {89809BB7-DD5C-4437-A97B-D7246ACDD4B1}
 		{F8DC68D2-23B5-4152-95AF-0299AA9E46AA} = {7315F78C-9376-4F7D-98AD-36FB7AA732BE}
-		{47AA75FE-4AE5-4237-8986-0830AE9B6D38} = {F8DC68D2-23B5-4152-95AF-0299AA9E46AA}
-		{B86469F2-9430-480A-B0D5-88B7B27825C5} = {F8DC68D2-23B5-4152-95AF-0299AA9E46AA}
+		{30824D3E-4003-402F-A37F-2996221C8B2F} = {F8DC68D2-23B5-4152-95AF-0299AA9E46AA}
+		{D06C34AE-E06F-41E0-88A9-FDF4263D020D} = {F8DC68D2-23B5-4152-95AF-0299AA9E46AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {005F437E-FB40-4409-A9C9-1CB533D5A444}

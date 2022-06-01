@@ -1,4 +1,4 @@
-﻿namespace Jossellware.Shared.Tests.Threading
+﻿namespace Jossellware.Shared.Tests.Unit.Threading
 {
     using FluentAssertions;
     using Jossellware.Shared.Threading;
@@ -6,7 +6,7 @@
 
     public class CancellationTokenSourceFactoryTests
     {
-        private readonly ICancellationTokenSourceFactory sut;
+        private readonly CancellationTokenSourceFactory sut;
 
         public CancellationTokenSourceFactoryTests()
         {
@@ -34,5 +34,7 @@
             result.Should().NotBeNull();
             result.IsCancellationRequested.Should().BeTrue();
         }
+
+        /* TODO: test for Dispose */
     }
 }

@@ -1,13 +1,9 @@
-﻿namespace Jossellware.Shared.PSTools.UnitTests.Commands
+﻿namespace Jossellware.Shared.PSTools.Tests.Unit.Commands
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using FluentAssertions;
     using Jossellware.Shared.PSTools.Errors;
-    using Jossellware.Shared.PSTools.UnitTests.TestUtils;
+    using Jossellware.Shared.PSTools.Tests.TestUtils;
     using Jossellware.Shared.Threading;
     using Moq;
     using Xunit;
@@ -76,7 +72,7 @@
             this.sut.Dispose();
 
             // Assert
-            this.sut.VerifyMethodCalls(nameof(IDisposable.Dispose), 1);
+            this.sut.ShouldOnlyHaveMethodCalls(1, nameof(IDisposable.Dispose));
             this.sut.PublicCancellationToken.IsCancellationRequested.Should().BeTrue();
             this.cts.Invoking(x => x.Cancel())
                 .Should().ThrowExactly<ObjectDisposedException>();
@@ -94,7 +90,8 @@
             this.sut.Dispose();
 
             // Assert
-            this.sut.VerifyMethodCalls(nameof(IDisposable.Dispose), 1);
+            this.sut.ShouldOnlyHaveMethodCalls(1, nameof(IDisposable.Dispose));
+            this.sut.ShouldHaveMethodCall(nameof(IDisposable.Dispose), 1);
             this.mockCtsFactory.As<IDisposable>().Verify(x => x.Dispose(), Times.Never);
         }
 
@@ -122,7 +119,7 @@
             this.sut.PublicBeginProcessing();
 
             // Assert
-            this.sut.VerifyMethodCallsExcept("BeginProcessingImplementation", 1, 0);
+            this.sut.ShouldOnlyHaveMethodCalls(1, "BeginProcessingImplementation");
         }
 
         [Fact]
@@ -136,8 +133,74 @@
             this.sut.PublicBeginProcessing();
 
             // Assert
-            this.sut.VerifyMethodCalls("BeginProcessingImplementation", 0);
-            this.sut.VerifyNoMethodCalls();
+            this.sut.ShouldHaveNoMethodCalls();
+        }
+
+        [Fact]
+        public void ProcessRecord_NotCancelled_CallsPreprocessRecordAndImplementation()
+        {
+            // Arrange
+            this.DoSetup();
+
+            // Act
+            this.sut.PublicProcessRecord();
+
+            // Assert
+            this.sut.ShouldOnlyHaveMethodCalls(1, "ProcessRecordImplementation", "PreprocessRecord");
+        }
+
+        [Fact]
+        public void ProcessRecord_Cancelled_DoesNotCallPreprocessRecordOrImplementation()
+        {
+            // Arrange
+            this.DoSetup();
+            this.cts.Cancel();
+
+            // Act
+            this.sut.PublicProcessRecord();
+
+            // Assert
+            this.sut.ShouldHaveNoMethodCalls();
+        }
+
+        [Fact]
+        public void EndProcessing_NotCancelled_CallsPreprocessRecordAndImplementation()
+        {
+            // Arrange
+            this.DoSetup();
+
+            // Act
+            this.sut.PublicEndProcessing();
+
+            // Assert
+            this.sut.ShouldOnlyHaveMethodCalls(1, "EndProcessingImplementation");
+        }
+
+        [Fact]
+        public void EndProcessing_Cancelled_DoesNotCallPreprocessRecordOrImplementation()
+        {
+            // Arrange
+            this.DoSetup();
+            this.cts.Cancel();
+
+            // Act
+            this.sut.PublicEndProcessing();
+
+            // Assert
+            this.sut.ShouldHaveNoMethodCalls();
+        }
+
+        [Fact]
+        public void StopProcessing_NotStopping_CancelsCancellationTokenAndCallsImplementation()
+        {
+            // Arrange
+            this.DoSetup();
+
+            // Act
+            this.sut.PublicStopProcessing();
+
+            // Assert
+            this.sut.ShouldOnlyHaveMethodCalls(1, "StopProcessingImplementation");
         }
 
         public void Dispose()
