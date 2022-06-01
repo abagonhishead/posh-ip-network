@@ -37,9 +37,9 @@
             {
                 if (this.sources?.Any() == true)
                 {
-                    while (this.sources.TryDequeue(out var result))
+                    while (this.sources.TryDequeue(out var result) &&
+                        result != null)
                     {
-                        result.Cancel();
                         result.Dispose();
                     }
                 }

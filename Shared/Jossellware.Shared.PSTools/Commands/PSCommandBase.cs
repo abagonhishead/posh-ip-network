@@ -9,29 +9,32 @@
     [CmdletBinding()]
     public abstract class PSCommandBase : PSCmdlet, IDisposable
     {
-        private readonly ICancellationTokenSourceFactory ctsFactory;
-
         private CancellationTokenSource cts;
         private bool disposed;
+        private bool shouldDisposeDependencies;
 
-        protected IErrorFactory ErrorFactory { get; set; }
+        protected IErrorFactory ErrorFactory { get; private set; }
 
-        protected CancellationToken CancellationToken => this.cts.Token;
+        protected ICancellationTokenSourceFactory CtsFactory { get; private set; }
+
+        protected CancellationToken CancellationToken { get; private set; }
 
         public PSCommandBase()
-            : this(new ErrorFactory(), new CancellationTokenSourceFactory())
+            : this(new ErrorFactory(), new CancellationTokenSourceFactory(), true)
         {
         }
 
-        public PSCommandBase(IErrorFactory errorFactory, ICancellationTokenSourceFactory ctsFactory)
+        public PSCommandBase(IErrorFactory errorFactory, ICancellationTokenSourceFactory ctsFactory, bool shouldDisposeDependencies = false)
         {
-            this.ErrorFactory = errorFactory;
-            this.ctsFactory = ctsFactory;
+            this.ErrorFactory = errorFactory ?? throw new ArgumentNullException(nameof(errorFactory));
+            this.CtsFactory = ctsFactory ?? throw new ArgumentNullException(nameof(ctsFactory));
 
-            this.cts = this.ctsFactory.BuildSource();
+            this.cts = this.CtsFactory.BuildSource();
+            this.CancellationToken = this.cts.Token;
+            this.shouldDisposeDependencies = shouldDisposeDependencies;
         }
 
-        /* TODO: Override this and use a JSON resource provider */
+        /* TODO: Override this and use a JSON provider */
         public override string GetResourceString(string baseName, string resourceId)
         {
             return base.GetResourceString(baseName, resourceId);
@@ -51,8 +54,15 @@
         {
             if (disposing)
             {
+                this.CancellationToken = new CancellationToken(true);
                 this.cts.Cancel();
                 this.cts.Dispose();
+
+                if (this.shouldDisposeDependencies &&
+                    this.CtsFactory != null)
+                {
+                    ((IDisposable)this.CtsFactory).Dispose();
+                }
             }
         }
 

@@ -402,3 +402,4 @@ web/.vscode/
 
 # Angular build output
 **/dist/*
+/.editorconfig
